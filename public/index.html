@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="mensajes"></div>
+    <ul id="lista-mensajes"></ul>
+    <audio id="audio"></audio>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io()
+        socket.on('connect', () => {
+            console.log('Socket online')
+
+        })
+        socket.on('disconnect', () => {
+            console.log('Socket offline')
+        })
+        socket.on('nuevo_comentario', (r) => {
+            console.log('evento escuchado del servidor')
+            console.log(r)
+        })
+
+        const token = 'EAAdtoiFPzWIBAGdP1Kmm8VO8YLozQZCuh2WDzLcaf8MsiAHJOmGLR8PG7nouV1dUj9fucpE4eCXZCPuiFoa2z8Yrc3pYyJVf1Ff5bGQchRPfhASz4qevZCx8zDmkLCNzE2yzrA8lmAk51eVrwWvFZA5AYcQdYYfLTEv8OdT8uEjl0KENrl2V'
+        const idLive = '1335188787060453'
+        const eventSource = new EventSource(`https://streaming-graph.facebook.com/${idLive}/live_comments?access_token=${token}`);
+
+        eventSource.addEventListener('message', (event) => {
+
+            const data = JSON.parse(event.data);
+            console.log(data)
+            //  const nombre = data.from.name
+            const message = data.message
+            //console.log(nombre);
+            console.log(message)
+
+            let leervoz = `${message}`
+            socket.emit('test', data)
+            // Crear objeto SpeechSynthesisUtterance
+            //  const utterance = new SpeechSynthesisUtterance(leervoz);
+
+            // Reproducir la voz
+            // window.speechSynthesis.speak(utterance);
+            sintetizarVoz(leervoz)
+        });
+        function sintetizarVoz(parametro) {
+            const mensaje = new SpeechSynthesisUtterance(parametro);
+            mensaje.voice = speechSynthesis.getVoices().find(voice => voice.name === 'Google español de Estados Unidos');
+            mensaje.lang = "es-US";
+            mensaje.rate = 1.0;
+            mensaje.pitch = 1.0;
+            speechSynthesis.speak(mensaje);
+        }
+
+    </script>
+</body>
+
+</html>
