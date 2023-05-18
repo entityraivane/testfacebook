@@ -28,7 +28,7 @@
         })
 
         const token = 'EAAdtoiFPzWIBAGdP1Kmm8VO8YLozQZCuh2WDzLcaf8MsiAHJOmGLR8PG7nouV1dUj9fucpE4eCXZCPuiFoa2z8Yrc3pYyJVf1Ff5bGQchRPfhASz4qevZCx8zDmkLCNzE2yzrA8lmAk51eVrwWvFZA5AYcQdYYfLTEv8OdT8uEjl0KENrl2V'
-        const idLive = '1335188787060453'
+        const idLive = '255348350324741'
         const eventSource = new EventSource(`https://streaming-graph.facebook.com/${idLive}/live_comments?access_token=${token}`);
 
         eventSource.addEventListener('message', (event) => {
@@ -41,7 +41,7 @@
             console.log(message)
 
             let leervoz = `${message}`
-            socket.emit('test', data)
+           // socket.emit('test', data)
             // Crear objeto SpeechSynthesisUtterance
             //  const utterance = new SpeechSynthesisUtterance(leervoz);
 
